@@ -45,6 +45,65 @@
     }
   }
 
+  /* ---- Particle canvas ---- */
+  (function () {
+    var canvas = document.getElementById('particle-canvas');
+    if (!canvas || prefersReducedMotion) return;
+
+    var ctx = canvas.getContext('2d');
+    var W, H, rafId;
+    var pts = [];
+    var NUM = 65;
+    var LINK = 130;
+
+    function Pt() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.r  = Math.random() * 1.4 + 0.4;
+      this.a  = Math.random() * 0.35 + 0.08;
+    }
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function tick() {
+      rafId = requestAnimationFrame(tick);
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W) p.vx *= -1;
+        if (p.y < 0 || p.y > H) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(95,184,204,' + p.a + ')';
+        ctx.fill();
+        for (var j = i + 1; j < pts.length; j++) {
+          var q = pts[j];
+          var dx = p.x - q.x, dy = p.y - q.y;
+          var d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < LINK) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = 'rgba(95,184,204,' + ((1 - d / LINK) * 0.1) + ')';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    for (var i = 0; i < NUM; i++) pts.push(new Pt());
+    setTimeout(tick, 400);
+  }());
+
   /* ---- Animated WhatsApp conversation ---- */
   var chat = document.getElementById('wa-chat');
   if (!chat) return;

@@ -943,3 +943,248 @@ button:focus-visible,
   .hero { padding: 64px 0 56px; }
   .hero-stats { gap: 28px; }
 }
+
+/* ============================================
+   Special Effects & Animations
+   ============================================ */
+
+/* Particle canvas — fixed behind everything */
+#particle-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Hero dot-grid overlay --- */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(95, 184, 204, 0.18) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 85%);
+  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 85%);
+  z-index: 0;
+}
+
+/* --- Hero floating orbs --- */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+  z-index: 0;
+}
+.hero-orb-1 {
+  width: 520px;
+  height: 520px;
+  top: -90px;
+  right: -60px;
+  background: radial-gradient(circle, rgba(31, 107, 122, 0.5) 0%, transparent 70%);
+  animation: orb-float 14s ease-in-out infinite;
+}
+.hero-orb-2 {
+  width: 320px;
+  height: 320px;
+  bottom: -50px;
+  left: -40px;
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.15) 0%, transparent 70%);
+  animation: orb-float 20s ease-in-out infinite reverse;
+}
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(28px, -24px) scale(1.07); }
+  66% { transform: translate(-18px, 16px) scale(0.95); }
+}
+
+/* Keep hero inner content above orbs & grid */
+.hero-inner { position: relative; z-index: 1; }
+
+/* --- Hero gradient text --- */
+.hero h1 .text-teal {
+  background: linear-gradient(120deg, var(--teal-text) 0%, #80efff 45%, #42e5a2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-stats strong {
+  background: linear-gradient(135deg, #ffffff 20%, var(--teal-text) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+}
+
+/* --- Phone float & glow --- */
+.hero-visual .phone-mockup {
+  animation: phone-float 6s ease-in-out infinite;
+}
+@keyframes phone-float {
+  0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+  50% { transform: translateY(-18px) rotate(0.5deg); }
+}
+.phone-frame {
+  box-shadow:
+    var(--shadow-card),
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 0 60px -10px rgba(31, 107, 122, 0.55);
+}
+
+/* --- Eyebrow pulsing dot --- */
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--teal-text);
+  box-shadow: 0 0 0 0 rgba(95, 184, 204, 0.5);
+  animation: eyebrow-ping 2.2s ease-in-out infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+  position: relative;
+  top: -1px;
+}
+@keyframes eyebrow-ping {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(95, 184, 204, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(95, 184, 204, 0); }
+}
+
+/* --- Button shimmer --- */
+.btn-primary,
+.btn-whatsapp {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after,
+.btn-whatsapp::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 45%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: skewX(-20deg);
+  animation: btn-shimmer 4s ease-in-out infinite;
+}
+@keyframes btn-shimmer {
+  0% { left: -120%; }
+  40%, 100% { left: 165%; }
+}
+
+/* --- Section head decorative glowing underline --- */
+.section-head::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin: 16px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--teal), var(--teal-text), var(--teal));
+  box-shadow: 0 0 16px rgba(95, 184, 204, 0.7);
+}
+
+/* --- Card + feature + step box-shadow transition --- */
+.card,
+.feature,
+.who-card,
+.step {
+  transition: transform 260ms var(--ease), border-color 260ms var(--ease), background 260ms var(--ease), box-shadow 260ms var(--ease);
+}
+.card:hover {
+  box-shadow: 0 0 32px rgba(31, 107, 122, 0.22), 0 20px 60px -20px rgba(0, 0, 0, 0.55);
+}
+.feature:hover,
+.who-card:hover,
+.step:hover {
+  box-shadow: 0 0 24px rgba(31, 107, 122, 0.2);
+}
+
+/* --- Pain / feature icon hover glow --- */
+.pain-icon,
+.feature-icon {
+  transition: box-shadow 300ms var(--ease), transform 300ms var(--ease), background 300ms var(--ease);
+}
+.pain-card:hover .pain-icon,
+.feature:hover .feature-icon {
+  background: rgba(31, 107, 122, 0.38);
+  box-shadow: 0 0 22px rgba(47, 143, 163, 0.45);
+  transform: scale(1.07);
+}
+
+/* --- Featured pricing card animated glow pulse --- */
+@keyframes card-glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 30px 70px -30px rgba(31, 107, 122, 0.55),
+      0 0 0 1px rgba(47, 143, 163, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 28px 60px -20px rgba(31, 107, 122, 0.85),
+      0 0 40px rgba(47, 143, 163, 0.18),
+      0 0 0 1px rgba(47, 143, 163, 0.9);
+  }
+}
+.price-card--featured {
+  animation: card-glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* --- Price strikethrough & savings --- */
+.price-old {
+  display: block;
+  text-decoration: line-through;
+  color: var(--ink-faint);
+  font-size: 0.88rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.price-savings {
+  display: block;
+  font-size: 0.82rem;
+  color: #25d366;
+  font-weight: 600;
+  margin: 4px 0 12px;
+}
+
+/* --- CTA section pulsing orb --- */
+.trial-cta {
+  position: relative;
+  overflow: hidden;
+}
+.trial-cta::before {
+  content: '';
+  position: absolute;
+  inset: -200px;
+  background: radial-gradient(circle at 50% 50%, rgba(31, 107, 122, 0.22) 0%, transparent 55%);
+  animation: cta-orb 8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes cta-orb {
+  0%, 100% { transform: scale(0.85); opacity: 0.7; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+.trial-inner { position: relative; z-index: 1; }
+
+/* --- Respect reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb,
+  .hero-visual .phone-mockup,
+  .price-card--featured,
+  .btn-primary::after,
+  .btn-whatsapp::after,
+  .eyebrow::before,
+  .trial-cta::before {
+    animation: none;
+  }
+}

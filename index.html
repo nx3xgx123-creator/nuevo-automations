@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- Header / Nav -->
   <header class="site-header" id="top">
@@ -43,6 +44,8 @@
   <main>
     <!-- Hero -->
     <section class="hero">
+      <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
       <div class="container hero-inner">
         <div class="hero-copy reveal">
           <p class="eyebrow">AI Receptionists for <span class="text-teal">UAE Clinics</span></p>
@@ -273,7 +276,9 @@
         <div class="grid-3 pricing-grid reveal">
           <article class="card price-card">
             <h3>Essential</h3>
-            <p class="price"><span>AED</span>5,000<span>/month</span></p>
+            <span class="price-old">AED 5,000/mo</span>
+            <p class="price"><span>AED</span>3,500<span>/month</span></p>
+            <span class="price-savings">You save AED 1,500/mo</span>
             <p class="price-desc">For single-location clinics getting started with AI on WhatsApp.</p>
             <ul class="price-features" role="list">
               <li>1 WhatsApp number, active 24/7</li>
@@ -291,7 +296,9 @@
           <article class="card price-card price-card--featured">
             <span class="price-badge">Most Popular</span>
             <h3>Growth</h3>
-            <p class="price"><span>AED</span>7,500<span>/month</span></p>
+            <span class="price-old">AED 7,500/mo</span>
+            <p class="price"><span>AED</span>5,500<span>/month</span></p>
+            <span class="price-savings">You save AED 2,000/mo</span>
             <p class="price-desc">For active clinics on Instagram, multi-branch, or ready to grow faster.</p>
             <ul class="price-features" role="list">
               <li>Everything in Essential</li>
@@ -309,7 +316,9 @@
 
           <article class="card price-card">
             <h3>Own It</h3>
-            <p class="price price--onetime"><span>AED</span>15,000<span>one-time</span></p>
+            <span class="price-old">AED 15,000 one-time</span>
+            <p class="price price--onetime"><span>AED</span>10,000<span>one-time</span></p>
+            <span class="price-savings">You save AED 5,000</span>
             <p class="price-addon">+ AED 1,500/month optional support</p>
             <p class="price-desc">For larger clinics, multi-branch groups, or strict data-privacy needs.</p>
             <ul class="price-features" role="list">
