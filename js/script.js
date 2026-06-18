@@ -26,8 +26,18 @@
     });
   }
 
-  /* ---- Scroll reveal ---- */
-  var revealEls = document.querySelectorAll('.reveal');
+  /* ---- Scroll reveal (blocks + staggered grids) ---- */
+  var revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+
+  // Stagger direct children of grid containers by 80ms each (motion only).
+  if (!prefersReducedMotion) {
+    document.querySelectorAll('.reveal-stagger').forEach(function (group) {
+      Array.prototype.forEach.call(group.children, function (child, i) {
+        child.style.transitionDelay = (i * 80) + 'ms';
+      });
+    });
+  }
+
   if (revealEls.length) {
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
       revealEls.forEach(function (el) { el.classList.add('is-visible'); });
@@ -35,8 +45,19 @@
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
+            var el = entry.target;
+            el.classList.add('is-visible');
+            observer.unobserve(el);
+            // Clear the stagger delay once revealed so it never lags later
+            // transitions (e.g. hover lift on pricing cards).
+            if (el.classList.contains('reveal-stagger')) {
+              var kids = el.children;
+              setTimeout(function () {
+                Array.prototype.forEach.call(kids, function (c) {
+                  c.style.transitionDelay = '';
+                });
+              }, (kids.length * 80) + 700);
+            }
           }
         });
       }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
@@ -102,6 +123,118 @@
     resize();
     for (var i = 0; i < NUM; i++) pts.push(new Pt());
     setTimeout(tick, 400);
+  }());
+
+  /* ---- Scroll progress bar ---- */
+  (function () {
+    var bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+    var ticking = false;
+    function update() {
+      var scroller = document.scrollingElement || document.documentElement;
+      var scrolled = window.pageYOffset || scroller.scrollTop || 0;
+      var max = scroller.scrollHeight - scroller.clientHeight;
+      var frac = max > 0 ? Math.min(scrolled / max, 1) : 0;
+      bar.style.transform = 'scaleX(' + frac + ')';
+      ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }());
+
+  /* ---- Hero headline: word-by-word reveal on load ---- */
+  (function () {
+    if (prefersReducedMotion) return;
+    var h1 = document.querySelector('.hero h1');
+    if (!h1) return;
+    var idx = 0;
+    (function wrap(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          // text node — split into words, preserve whitespace (incl. &nbsp;)
+          var parts = child.textContent.split(/(\s+)/);
+          var frag = document.createDocumentFragment();
+          parts.forEach(function (part) {
+            if (part === '') return;
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(part));
+              return;
+            }
+            var w = document.createElement('span');
+            w.className = 'hero-word';
+            w.textContent = part;
+            w.style.animationDelay = (idx * 90) + 'ms';
+            idx++;
+            frag.appendChild(w);
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1 && child.tagName !== 'BR') {
+          // element (e.g. .text-teal span) — recurse, keep <br> intact
+          wrap(child);
+        }
+      });
+    }(h1));
+    h1.classList.add('hero-words-ready');
+  }());
+
+  /* ---- Stat counter: count up when stats bar enters view ---- */
+  (function () {
+    var bar = document.querySelector('.hero-stats');
+    if (!bar || prefersReducedMotion || !('IntersectionObserver' in window)) return;
+    var nums = bar.querySelectorAll('strong');
+
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function run(el) {
+      var full = el.textContent;
+      var m = full.match(/\d[\d,]*/);
+      if (!m) return;
+      var target = parseInt(m[0].replace(/,/g, ''), 10);
+      if (isNaN(target)) return;
+      var prefix = full.slice(0, m.index);
+      var suffix = full.slice(m.index + m[0].length);
+      var dur = 1000, startTs = null;
+      function step(ts) {
+        if (startTs === null) startTs = ts;
+        var p = Math.min((ts - startTs) / dur, 1);
+        el.textContent = prefix + Math.round(easeOutCubic(p) * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = full;
+      }
+      requestAnimationFrame(step);
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          nums.forEach(run);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    io.observe(bar);
+  }());
+
+  /* ---- Button click ripple ---- */
+  (function () {
+    if (prefersReducedMotion) return;
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('.btn-primary, .btn-whatsapp');
+      if (!btn) return;
+      var rect = btn.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height);
+      var ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(function () { ripple.remove(); }, 620);
+    });
   }());
 
   /* ---- Animated WhatsApp conversation ---- */

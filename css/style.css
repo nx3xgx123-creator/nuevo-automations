@@ -1074,11 +1074,13 @@ main,
   height: 200%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
   transform: skewX(-20deg);
-  animation: btn-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
 }
-@keyframes btn-shimmer {
-  0% { left: -120%; }
-  40%, 100% { left: 165%; }
+@media (prefers-reduced-motion: no-preference) {
+  .btn-primary::after,
+  .btn-whatsapp::after { transition: left 600ms var(--ease); }
+  .btn-primary:hover::after,
+  .btn-whatsapp:hover::after { left: 165%; }
 }
 
 /* --- Section head decorative glowing underline --- */
@@ -1135,8 +1137,10 @@ main,
       0 0 0 1px rgba(47, 143, 163, 0.9);
   }
 }
-.price-card--featured {
-  animation: card-glow-pulse 3.5s ease-in-out infinite;
+@media (prefers-reduced-motion: no-preference) {
+  .price-card--featured {
+    animation: card-glow-pulse 3.5s ease-in-out infinite;
+  }
 }
 
 /* --- Price strikethrough & savings --- */
@@ -1187,4 +1191,124 @@ main,
   .trial-cta::before {
     animation: none;
   }
+}
+
+/* ============================================
+   Interactive Enhancements (v2)
+   Motion gated under (prefers-reduced-motion: no-preference)
+   so reduced-motion users get a clean static version.
+   ============================================ */
+
+/* --- Scroll progress bar --- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+  background: linear-gradient(90deg, var(--teal), var(--teal-text));
+  box-shadow: 0 0 10px rgba(95, 184, 204, 0.6);
+  z-index: 200;
+  pointer-events: none;
+}
+
+/* --- Pricing card hover: lift + soft blue glow --- */
+.price-card:hover {
+  border-color: var(--teal-light);
+  box-shadow:
+    0 0 28px rgba(47, 143, 163, 0.4),
+    0 24px 60px -24px rgba(0, 0, 0, 0.6);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .price-card:hover { transform: translateY(-6px); }
+}
+
+/* --- Feature card: blue shine sweep on hover --- */
+.feature { position: relative; overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .feature::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -130%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(95, 184, 204, 0.16), transparent);
+    transform: skewX(-18deg);
+    transition: left 700ms var(--ease);
+    pointer-events: none;
+  }
+  .feature:hover::after { left: 160%; }
+}
+
+/* --- WhatsApp CTA icon: gentle pulse --- */
+@media (prefers-reduced-motion: no-preference) {
+  .btn-whatsapp svg {
+    transform-origin: center;
+    animation: wa-icon-pulse 1.8s ease-in-out infinite;
+  }
+}
+@keyframes wa-icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+/* --- Hero dot-grid: slow drift --- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero::before { animation: grid-drift 40s linear infinite; }
+}
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: 30px 30px; }
+}
+
+/* --- Hero headline: word-by-word reveal --- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-words-ready .hero-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: hero-word-in 600ms var(--ease) forwards;
+  }
+}
+@keyframes hero-word-in {
+  to { opacity: 1; transform: none; }
+}
+/* re-apply the teal gradient to each word inside the accent span */
+.hero h1 .text-teal .hero-word {
+  background: linear-gradient(120deg, var(--teal-text) 0%, #80efff 45%, #42e5a2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Staggered reveal for card grids --- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+  }
+  .reveal-stagger.is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Button click ripple --- */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn-ripple { animation: btn-ripple-anim 600ms var(--ease); }
+}
+@keyframes btn-ripple-anim {
+  to { transform: scale(2.4); opacity: 0; }
 }
