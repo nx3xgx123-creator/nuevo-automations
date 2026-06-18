@@ -327,4 +327,107 @@
   } else {
     runConversation();
   }
+
+  /* ---- 3D card tilt + cursor spotlight ---- */
+  (function () {
+    if (prefersReducedMotion) return;
+    var els = document.querySelectorAll('.card, .feature, .who-card, .step');
+    els.forEach(function (el) {
+      var spot = document.createElement('div');
+      spot.className = 'card-spotlight';
+      el.insertBefore(spot, el.firstChild);
+
+      el.addEventListener('mousemove', function (e) {
+        var r  = el.getBoundingClientRect();
+        var x  = e.clientX - r.left;
+        var y  = e.clientY - r.top;
+        var rx = ((y - r.height / 2) / (r.height / 2)) * -6;
+        var ry = ((x - r.width  / 2) / (r.width  / 2)) *  6;
+        el.style.transition = 'border-color 260ms var(--ease), background 260ms var(--ease), box-shadow 260ms var(--ease)';
+        el.style.transform  = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
+        spot.style.setProperty('--mx', x + 'px');
+        spot.style.setProperty('--my', y + 'px');
+        spot.style.opacity = '1';
+      });
+
+      el.addEventListener('mouseleave', function () {
+        el.style.transition = 'transform 500ms var(--ease), border-color 260ms var(--ease), background 260ms var(--ease), box-shadow 260ms var(--ease)';
+        el.style.transform  = '';
+        spot.style.opacity  = '0';
+      });
+    });
+  }());
+
+  /* ---- Magnetic buttons ---- */
+  (function () {
+    if (prefersReducedMotion) return;
+    document.querySelectorAll('.btn-primary, .btn-whatsapp').forEach(function (btn) {
+      btn.addEventListener('mousemove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var x = (e.clientX - r.left - r.width  / 2) * 0.22;
+        var y = (e.clientY - r.top  - r.height / 2) * 0.22;
+        btn.style.transform = 'translateY(-2px) translate(' + x + 'px,' + y + 'px)';
+      });
+      btn.addEventListener('mouseleave', function () {
+        btn.style.transform = '';
+      });
+    });
+  }());
+
+  /* ---- Booking toast social proof ---- */
+  (function () {
+    if (prefersReducedMotion) return;
+    var toast  = document.getElementById('booking-toast');
+    var nameEl = document.getElementById('toast-name');
+    var msgEl  = document.getElementById('toast-msg');
+    if (!toast || !nameEl || !msgEl) return;
+
+    var leads = [
+      { name: 'Ahmed · Dubai',         msg: 'Booked a consultation — AI replied at 11 PM' },
+      { name: 'Fatima · Abu Dhabi',    msg: 'Appointment confirmed after hours' },
+      { name: 'Mohammed · Sharjah',    msg: 'Lead captured — replied in 4 seconds' },
+      { name: 'Sara · Dubai Marina',   msg: 'Enquiry handled while the team was offline' },
+      { name: 'Khalid · JLT',          msg: 'New booking confirmed — no staff needed' },
+      { name: 'Layla · Business Bay',  msg: 'After-hours lead converted automatically' },
+    ];
+    var idx = 0, hideId;
+
+    function showToast() {
+      var lead = leads[idx % leads.length];
+      idx++;
+      nameEl.textContent = lead.name;
+      msgEl.textContent  = lead.msg;
+      toast.classList.add('show');
+      clearTimeout(hideId);
+      hideId = setTimeout(function () { toast.classList.remove('show'); }, 4200);
+    }
+
+    setTimeout(function () {
+      showToast();
+      setInterval(showToast, 10000);
+    }, 5500);
+  }());
+
+  /* ---- Hero scroll parallax ---- */
+  (function () {
+    if (prefersReducedMotion) return;
+    var copy   = document.querySelector('.hero-copy');
+    var visual = document.querySelector('.hero-visual');
+    var hero   = document.querySelector('.hero');
+    if (!copy || !visual || !hero) return;
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var y = window.pageYOffset;
+        if (y <= hero.offsetHeight + 120) {
+          copy.style.transform   = 'translateY(' + (y * 0.12) + 'px)';
+          visual.style.transform = 'translateY(' + (y * 0.07) + 'px)';
+        }
+        ticking = false;
+      });
+    }, { passive: true });
+  }());
+
 })();

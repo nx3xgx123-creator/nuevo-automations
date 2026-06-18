@@ -1312,3 +1312,206 @@ main,
 @keyframes btn-ripple-anim {
   to { transform: scale(2.4); opacity: 0; }
 }
+
+/* ============================================
+   Enhancement v3 — Depth, Polish & Interactivity
+   ============================================ */
+
+/* --- Cursor spotlight overlay (injected by JS) --- */
+.card { position: relative; }
+.card-spotlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 50%), rgba(95, 184, 204, 0.13), transparent 70%);
+  transition: opacity 300ms var(--ease);
+}
+
+/* Make sure card content sits above spotlight */
+.card > *:not(.card-spotlight),
+.feature > *:not(.card-spotlight),
+.who-card > *:not(.card-spotlight),
+.step > *:not(.card-spotlight) {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Floating WhatsApp sticky button --- */
+.wa-sticky {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  color: #07321b;
+  text-decoration: none;
+  box-shadow: 0 8px 28px -6px rgba(37, 211, 102, 0.6);
+  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
+}
+.wa-sticky:hover {
+  transform: scale(1.13) translateY(-2px);
+  box-shadow: 0 14px 40px -6px rgba(37, 211, 102, 0.85);
+}
+.wa-sticky svg { width: 28px; height: 28px; }
+@media (prefers-reduced-motion: no-preference) {
+  .wa-sticky { animation: wa-sticky-ring 2.8s ease-out infinite; }
+}
+@keyframes wa-sticky-ring {
+  0%, 100% { box-shadow: 0 8px 28px -6px rgba(37,211,102,0.6), 0 0 0 0 rgba(37,211,102,0.45); }
+  45%       { box-shadow: 0 8px 28px -6px rgba(37,211,102,0.6), 0 0 0 15px rgba(37,211,102,0); }
+}
+
+/* --- Booking toast notification --- */
+.booking-toast {
+  position: fixed;
+  bottom: 100px;
+  right: 28px;
+  z-index: 149;
+  background: rgba(6, 26, 46, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(37, 211, 102, 0.22);
+  border-radius: 14px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 274px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 380ms var(--ease), transform 380ms var(--ease);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.55);
+}
+.booking-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.toast-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+}
+.toast-text strong {
+  display: block;
+  color: var(--white);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.toast-text span {
+  font-size: 0.77rem;
+  color: var(--ink-faint);
+  line-height: 1.35;
+}
+
+/* --- "Online now" pill in header --- */
+.online-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--whatsapp);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  opacity: 0.9;
+}
+.online-pill::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .online-pill::before {
+    animation: online-pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+}
+@keyframes online-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(37, 211, 102, 0); }
+}
+@media (max-width: 760px) { .online-pill { display: none; } }
+
+/* --- Trust marquee strip --- */
+.trust-marquee {
+  padding: 18px 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.015);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  position: relative;
+  z-index: 1;
+}
+.trust-marquee::before,
+.trust-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 110px;
+  z-index: 2;
+  pointer-events: none;
+}
+.trust-marquee::before { left: 0;  background: linear-gradient(90deg, var(--navy), transparent); }
+.trust-marquee::after  { right: 0; background: linear-gradient(-90deg, var(--navy), transparent); }
+.trust-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .trust-track { animation: trust-scroll 32s linear infinite; }
+  .trust-track:hover { animation-play-state: paused; }
+}
+@keyframes trust-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 32px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.trust-item svg { color: var(--teal-text); opacity: 0.65; flex-shrink: 0; }
+.trust-sep {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+/* --- Film-grain noise overlay --- */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 250px 250px;
+}
