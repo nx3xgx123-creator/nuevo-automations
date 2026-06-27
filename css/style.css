@@ -1502,6 +1502,20 @@ main,
   justify-content: center;
   gap: 14px;
 }
+.orcaflo-demo-creds {
+  margin: 18px auto 0;
+  max-width: 520px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+.orcaflo-demo-creds strong {
+  color: #ff4d4d;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
 
 /* ============================================
    Pricing card category label + range price
