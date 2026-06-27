@@ -1370,54 +1370,6 @@ main,
   45%       { box-shadow: 0 8px 28px -6px rgba(37,211,102,0.6), 0 0 0 15px rgba(37,211,102,0); }
 }
 
-/* --- Booking toast notification --- */
-.booking-toast {
-  position: fixed;
-  bottom: 100px;
-  right: 28px;
-  z-index: 149;
-  background: rgba(6, 26, 46, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(37, 211, 102, 0.22);
-  border-radius: 14px;
-  padding: 13px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 274px;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateX(24px);
-  transition: opacity 380ms var(--ease), transform 380ms var(--ease);
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.55);
-}
-.booking-toast.show {
-  opacity: 1;
-  transform: translateX(0);
-}
-.toast-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--whatsapp);
-  flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
-}
-.toast-text strong {
-  display: block;
-  color: var(--white);
-  font-size: 0.84rem;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-bottom: 2px;
-}
-.toast-text span {
-  font-size: 0.77rem;
-  color: var(--ink-faint);
-  line-height: 1.35;
-}
-
 /* --- "Online now" pill in header --- */
 .online-pill {
   display: inline-flex;
@@ -1514,4 +1466,61 @@ main,
   opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 250px 250px;
+}
+
+/* ============================================
+   OrcaFlo pricing callout
+   ============================================ */
+.orcaflo-pricing {
+  margin: 48px auto 0;
+  max-width: 760px;
+  text-align: center;
+  background: linear-gradient(165deg, rgba(31, 107, 122, 0.2), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--teal-light);
+  border-radius: var(--radius-lg);
+  padding: 34px 32px;
+  box-shadow: 0 26px 64px -32px rgba(31, 107, 122, 0.55);
+}
+.orcaflo-pricing-main {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.orcaflo-pricing-main strong { color: var(--teal-text); font-weight: 700; }
+.orcaflo-pricing-main .dot { color: var(--ink-faint); margin: 0 10px; font-weight: 400; }
+.orcaflo-pricing-desc {
+  max-width: 560px;
+  margin: 0 auto 24px;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+.orcaflo-pricing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* ============================================
+   Pricing card category label + range price
+   ============================================ */
+.price-label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal-text);
+  margin-bottom: 10px;
+}
+.price--range {
+  font-size: 1.7rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 520px) {
+  .orcaflo-pricing-main .dot { display: block; height: 0; margin: 4px 0; visibility: hidden; }
 }

@@ -374,40 +374,6 @@
     });
   }());
 
-  /* ---- Booking toast social proof ---- */
-  (function () {
-    if (prefersReducedMotion) return;
-    var toast  = document.getElementById('booking-toast');
-    var nameEl = document.getElementById('toast-name');
-    var msgEl  = document.getElementById('toast-msg');
-    if (!toast || !nameEl || !msgEl) return;
-
-    var leads = [
-      { name: 'Ahmed · Dubai',         msg: 'Booked a consultation — AI replied at 11 PM' },
-      { name: 'Fatima · Abu Dhabi',    msg: 'Appointment confirmed after hours' },
-      { name: 'Mohammed · Sharjah',    msg: 'Lead captured — replied in 4 seconds' },
-      { name: 'Sara · Dubai Marina',   msg: 'Enquiry handled while the team was offline' },
-      { name: 'Khalid · JLT',          msg: 'New booking confirmed — no staff needed' },
-      { name: 'Layla · Business Bay',  msg: 'After-hours lead converted automatically' },
-    ];
-    var idx = 0, hideId;
-
-    function showToast() {
-      var lead = leads[idx % leads.length];
-      idx++;
-      nameEl.textContent = lead.name;
-      msgEl.textContent  = lead.msg;
-      toast.classList.add('show');
-      clearTimeout(hideId);
-      hideId = setTimeout(function () { toast.classList.remove('show'); }, 4200);
-    }
-
-    setTimeout(function () {
-      showToast();
-      setInterval(showToast, 10000);
-    }, 5500);
-  }());
-
   /* ---- Hero scroll parallax ---- */
   (function () {
     if (prefersReducedMotion) return;
