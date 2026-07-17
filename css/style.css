@@ -1518,6 +1518,116 @@ main,
 }
 
 /* ============================================
+   CRO: hero paths + trust bar
+   ============================================ */
+.hero-actions.hero-paths { margin-bottom: 22px; }
+.hero-trustbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  margin: 0 0 40px;
+  padding: 0;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.hero-trustbar span { display: inline-flex; align-items: center; }
+.hero-trustbar span::before {
+  content: "✓";
+  color: var(--teal-text);
+  font-weight: 700;
+  margin-right: 7px;
+}
+
+/* ============================================
+   CRO: custom-automation CTA + pricing guidance
+   ============================================ */
+.automate-cta { margin-top: 40px; text-align: center; }
+.pricing-guide {
+  max-width: 720px;
+  margin: -16px auto 44px;
+  text-align: center;
+  font-size: 0.98rem;
+  color: var(--ink-muted);
+}
+.pricing-guide strong { color: var(--white); font-weight: 600; }
+
+/* ============================================
+   CRO: proof section — case-study cards + dashboard shot
+   ============================================ */
+.proof-grid { margin-bottom: 40px; }
+.proof-card { display: flex; flex-direction: column; }
+.proof-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--teal-text);
+  background: rgba(31, 107, 122, 0.22);
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin-bottom: 16px;
+}
+.proof-card h3 { color: var(--white); font-size: 1.25rem; margin-bottom: 2px; }
+.proof-what { color: var(--ink-faint); font-size: 0.86rem; margin-bottom: 12px; }
+.proof-body { font-size: 0.92rem; margin-bottom: 16px; }
+.proof-metric {
+  margin: auto 0 0;
+  font-size: 0.95rem;
+  color: var(--white);
+  font-weight: 600;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.proof-metric strong {
+  color: var(--teal-text);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.proof-card--soon { border-style: dashed; }
+.proof-card--soon h3 { color: var(--ink-muted); }
+
+.proof-shot { margin: 0; }
+.proof-shot-frame {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.proof-shot-frame img { width: 100%; height: auto; display: block; }
+.proof-shot-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 28px;
+}
+.proof-shot-ph svg { color: var(--teal-light); opacity: 0.75; }
+.proof-shot-ph small { font-weight: 400; font-size: 0.8rem; opacity: 0.85; }
+.proof-shot figcaption {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+}
+.proof-footnote {
+  margin: 22px auto 0;
+  max-width: 640px;
+  text-align: center;
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+}
+
+/* ============================================
    Pricing card category label + range price
    ============================================ */
 .price-label {
