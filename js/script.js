@@ -26,6 +26,18 @@
     });
   }
 
+  /* ---- Partners wheel: duplicate the set for a seamless loop ---- */
+  var partnersTrack = document.getElementById('partners-track');
+  if (partnersTrack && !prefersReducedMotion) {
+    Array.prototype.slice.call(partnersTrack.children).forEach(function (item) {
+      var clone = item.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
+      partnersTrack.appendChild(clone);
+    });
+    partnersTrack.classList.add('is-looping');
+  }
+
   /* ---- Scroll reveal (blocks + staggered grids) ---- */
   var revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
 

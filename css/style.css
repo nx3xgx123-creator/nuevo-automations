@@ -1457,6 +1457,98 @@ main,
   flex-shrink: 0;
 }
 
+/* --- Partners wheel --- */
+.partners-wheel {
+  position: relative;
+  overflow: hidden;
+  margin-top: 8px;
+  padding: 6px 0;
+}
+.partners-wheel::before,
+.partners-wheel::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 140px;
+  z-index: 2;
+  pointer-events: none;
+}
+.partners-wheel::before { left: 0;  background: linear-gradient(90deg, var(--navy), transparent); }
+.partners-wheel::after  { right: 0; background: linear-gradient(-90deg, var(--navy), transparent); }
+
+.partners-track {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  width: max-content;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .partners-track.is-looping { animation: partners-scroll 38s linear infinite; }
+  .partners-wheel:hover .partners-track.is-looping { animation-play-state: paused; }
+}
+@keyframes partners-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-50% - 10px)); }
+}
+
+.partner-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-shrink: 0;
+  min-width: 210px;
+  height: 96px;
+  padding: 0 32px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition: transform 260ms var(--ease), border-color 260ms var(--ease), background 260ms var(--ease);
+}
+.partner-badge:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: var(--surface-strong);
+}
+.partner-badge img {
+  height: 38px;
+  width: auto;
+  max-width: 155px;
+  object-fit: contain;
+  opacity: 0.92;
+}
+.partner-badge:hover img { opacity: 1; }
+
+.partner-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--white);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.partner-name em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.partner-badge--more {
+  min-width: 150px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--teal-text);
+  border-style: dashed;
+}
+
+@media (max-width: 760px) {
+  .partners-wheel::before,
+  .partners-wheel::after { width: 60px; }
+  .partner-badge { min-width: 170px; height: 84px; padding: 0 24px; }
+  .partner-badge img { height: 32px; max-width: 125px; }
+}
+
 /* --- Film-grain noise overlay --- */
 .noise-overlay {
   position: fixed;

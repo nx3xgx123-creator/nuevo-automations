@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="116" height="50" viewBox="0 0 116 50" fill="none">
+  <line x1="12.55" y1="17.5" x2="12.55" y2="32.5" stroke="#d98ba0" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="21.64" y1="8.34" x2="21.64" y2="41.66" stroke="#b7a9d4" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="30.73" y1="12.15" x2="30.73" y2="37.85" stroke="#a9c5a0" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="48.91" y1="39.03" x2="48.91" y2="10.97" stroke="#e3a993" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="58" y1="41.17" x2="58" y2="8.83" stroke="#d98ba0" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="67.09" y1="30.71" x2="67.09" y2="19.29" stroke="#b7a9d4" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="76.18" y1="15.81" x2="76.18" y2="34.19" stroke="#a9c5a0" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="85.27" y1="8.06" x2="85.27" y2="41.94" stroke="#d9bc8c" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="94.36" y1="13.51" x2="94.36" y2="36.49" stroke="#e3a993" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <line x1="103.45" y1="27.9" x2="103.45" y2="22.1" stroke="#d98ba0" stroke-width="2.4" stroke-linecap="round" opacity="0.95"/>
+  <path d="M 8 25 L 10.08 21.47 L 12.17 18.09 L 14.25 15.01 L 16.33 12.37 L 18.42 10.28 L 20.5 8.83 L 22.58 8.09 L 24.67 8.09 L 26.75 8.83 L 28.83 10.28 L 30.92 12.37 L 33 15.01 L 35.08 18.09 L 37.17 21.47 L 39.25 25 L 41.33 28.53 L 43.42 31.91 L 45.5 34.99 L 47.58 37.63 L 49.67 39.72 L 51.75 41.17 L 53.83 41.91 L 55.92 41.91 L 58 41.17 L 60.08 39.72 L 62.17 37.63 L 64.25 34.99 L 66.33 31.91 L 68.42 28.53 L 70.5 25 L 72.58 21.47 L 74.67 18.09 L 76.75 15.01 L 78.83 12.37 L 80.92 10.28 L 83 8.83 L 85.08 8.09 L 87.17 8.09 L 89.25 8.83 L 91.33 10.28 L 93.42 12.37 L 95.5 15.01 L 97.58 18.09 L 99.67 21.47 L 101.75 25 L 103.83 28.53 L 105.92 31.91 L 108 34.99" stroke="#a84c78" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M 8 25 L 10.08 28.53 L 12.17 31.91 L 14.25 34.99 L 16.33 37.63 L 18.42 39.72 L 20.5 41.17 L 22.58 41.91 L 24.67 41.91 L 26.75 41.17 L 28.83 39.72 L 30.92 37.63 L 33 34.99 L 35.08 31.91 L 37.17 28.53 L 39.25 25 L 41.33 21.47 L 43.42 18.09 L 45.5 15.01 L 47.58 12.37 L 49.67 10.28 L 51.75 8.83 L 53.83 8.09 L 55.92 8.09 L 58 8.83 L 60.08 10.28 L 62.17 12.37 L 64.25 15.01 L 66.33 18.09 L 68.42 21.47 L 70.5 25 L 72.58 28.53 L 74.67 31.91 L 76.75 34.99 L 78.83 37.63 L 80.92 39.72 L 83 41.17 L 85.08 41.91 L 87.17 41.91 L 89.25 41.17 L 91.33 39.72 L 93.42 37.63 L 95.5 34.99 L 97.58 31.91 L 99.67 28.53 L 101.75 25 L 103.83 21.47 L 105.92 18.09 L 108 15.01" stroke="#c08a82" stroke-width="2.4" stroke-linecap="round"/>
+</svg>
