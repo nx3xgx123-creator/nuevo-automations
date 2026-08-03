@@ -4,16 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuevo Automations — AI Automation Agency for UAE Businesses</title>
-  <meta name="description" content="Nuevo Automations builds AI-powered automations for UAE businesses — from OrcaFlo, our WhatsApp AI sales system, to custom automations that eliminate manual work across any operation.">
+  <meta name="description" content="AI automation for UAE businesses — OrcaFlo WhatsApp AI sales plus custom workflow automation. Every enquiry answered in seconds, every lead followed up, built and managed for you.">
+  <link rel="canonical" href="https://nuevoautomations.com/">
+  <meta name="theme-color" content="#050b1a">
+
+  <!-- Social link previews (WhatsApp, LinkedIn, X, iMessage) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nuevo Automations">
+  <meta property="og:locale" content="en_AE">
+  <meta property="og:url" content="https://nuevoautomations.com/">
+  <meta property="og:title" content="Nuevo Automations — AI Automation for UAE Businesses">
+  <meta property="og:description" content="Every message answered in seconds. Every lead chased for a week. The repetitive work your team shouldn't be touching — handled.">
+  <meta property="og:image" content="https://nuevoautomations.com/assets/proof.png">
+  <meta property="og:image:width" content="1604">
+  <meta property="og:image:height" content="980">
+  <meta property="og:image:alt" content="The OrcaFlo dashboard showing WhatsApp conversations and lead temperature scoring.">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nuevo Automations — AI Automation for UAE Businesses">
+  <meta name="twitter:description" content="Every message answered in seconds. Every lead chased for a week. The repetitive work your team shouldn't be touching — handled.">
+  <meta name="twitter:image" content="https://nuevoautomations.com/assets/proof.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- GSAP, Lenis and the Three.js module all come from jsdelivr — open the
+       connection during head parsing instead of at first script fetch. -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured data. Only facts published on this page — deliberately no
+       aggregateRating/review, since inventing those is both dishonest and a
+       manual-action risk with Google. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Nuevo Automations",
+    "url": "https://nuevoautomations.com/",
+    "logo": "https://nuevoautomations.com/assets/logo-icon.png",
+    "image": "https://nuevoautomations.com/assets/proof.png",
+    "description": "AI automation agency for UAE businesses. OrcaFlo WhatsApp AI sales systems and custom workflow automation, built and managed end to end.",
+    "email": "nawafallahham@nuevoautomations.com",
+    "telephone": "+971508549171",
+    "priceRange": "AED 1,200–15,000",
+    "address": { "@type": "PostalAddress", "addressCountry": "AE" },
+    "areaServed": [
+      { "@type": "City", "name": "Dubai" },
+      { "@type": "City", "name": "Abu Dhabi" },
+      { "@type": "Country", "name": "United Arab Emirates" }
+    ],
+    "availableLanguage": ["en", "ar"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "telephone": "+971508549171",
+      "email": "nawafallahham@nuevoautomations.com",
+      "availableLanguage": ["en", "ar"]
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Automation services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "OrcaFlo — WhatsApp AI sales system", "description": "Managed WhatsApp AI handling the full sales cycle: instant replies, lead scoring, follow-up sequences, broadcasts and a CRM dashboard." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automation Packages", "description": "Prebuilt automations for lead capture, follow-up, booking reminders, invoicing, reviews and lead recovery." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Automation", "description": "Bespoke workflow automation scoped to your operation and built on your existing tools." } }
+      ]
+    }
+  }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js" defer></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
 </head>
 <body>
+  <a href="#problem" class="skip-link">Skip to content</a>
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <canvas id="webgl-scene" aria-hidden="true"></canvas>
+  <canvas id="link-canvas" aria-hidden="true"></canvas>
   <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
   <!-- Header / Nav -->
@@ -28,8 +103,8 @@
         <a href="#problem">The Problem</a>
         <a href="#orcaflo">OrcaFlo</a>
         <a href="#automate">What We Automate</a>
+        <a href="#results">Results</a>
         <a href="#pricing">Pricing</a>
-        <a href="#why-us">Why Us</a>
         <a href="#partners">Partners</a>
       </nav>
 
@@ -51,29 +126,23 @@
       <div class="container hero-inner">
         <div class="hero-copy reveal">
           <p class="eyebrow">AI Automation Agency · <span class="text-teal">Dubai &amp; Abu Dhabi</span></p>
-          <h1>We automate the work that's<br><span class="text-teal">slowing your business down.</span></h1>
-          <p class="hero-sub">From AI-powered WhatsApp sales systems to custom workflow automation — Nuevo Automations builds and manages the automations that eliminate manual work, capture more leads, and let your team focus on what actually matters.</p>
+          <h1>We automate the busywork<br><span class="text-teal">that's costing you customers.</span></h1>
+          <p class="hero-sub">Every message answered in seconds. Every lead chased for a week. Every repetitive task your team shouldn't be touching — handled. We build the systems, run them, and keep them working.</p>
           <div class="hero-actions hero-paths">
             <a href="#orcaflo" class="btn btn-primary btn-lg">Sell over WhatsApp → See OrcaFlo</a>
             <a href="#automate" class="btn btn-ghost btn-lg">Automate anything else → What we automate</a>
           </div>
           <p class="hero-trustbar">
-            <span>Official Meta WhatsApp API</span>
             <span>Arabic &amp; English</span>
             <span>Built &amp; run by the same team that uses it daily</span>
           </p>
-          <ul class="hero-stats" role="list">
-            <li><strong>5 sec</strong><span>average reply time</span></li>
-            <li><strong>24/7</strong><span>always-on coverage</span></li>
-            <li><strong>2 langs</strong><span>Arabic &amp; English</span></li>
-          </ul>
         </div>
 
         <div class="hero-visual reveal" aria-hidden="false">
           <div class="phone-mockup" role="img" aria-label="WhatsApp conversation showing the AI receptionist replying instantly in Arabic and English, then booking an appointment">
             <div class="phone-frame">
-              <div class="phone-notch"></div>
               <div class="phone-screen">
+                <div class="phone-status" aria-hidden="true"><span class="phone-island"></span></div>
                 <div class="wa-header">
                   <span class="wa-avatar"><img src="assets/logo-icon.png" alt="" width="22" height="22"></span>
                   <span class="wa-header-text">
@@ -89,6 +158,7 @@
                   <span>Message</span>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11l18-7-7 18-2.5-7L3 11Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
                 </div>
+                <span class="phone-home" aria-hidden="true"></span>
               </div>
             </div>
             <span class="phone-badge">Replies in 5 seconds — day or night</span>
@@ -128,7 +198,7 @@
         <div class="section-head reveal">
           <p class="eyebrow">The Problem</p>
           <h2>Every missed message is a customer who books somewhere else</h2>
-          <p class="section-sub">Businesses across Dubai and Abu Dhabi are losing revenue to a problem that's completely solvable.</p>
+          <p class="section-sub">Across Dubai and Abu Dhabi, businesses are quietly bleeding revenue to a problem that takes days to fix.</p>
         </div>
 
         <div class="grid-3 reveal-stagger">
@@ -162,8 +232,8 @@
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow">Our Flagship Product</p>
-          <h2>OrcaFlo — The AI WhatsApp Sales System for UAE Businesses</h2>
-          <p class="section-sub">OrcaFlo is a fully managed WhatsApp AI platform that handles your entire sales cycle — from first message to booked appointment or closed sale. Built for any UAE business that sells over WhatsApp: clinics, e-commerce, real estate, services, and beyond. Your team only steps in when a lead is hot and ready.</p>
+          <h2>OrcaFlo answers every message, scores every lead, and never forgets to follow up</h2>
+          <p class="section-sub">A fully managed WhatsApp AI that runs your entire sales cycle — first message to booked appointment or closed sale. Built for any UAE business selling over WhatsApp: clinics, e-commerce, real estate, services. Your team only steps in when a lead is hot.</p>
         </div>
 
         <div class="grid-features reveal-stagger">
@@ -207,7 +277,7 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M15 8.5a4 4 0 0 1 0 7M18 5.5a8 8 0 0 1 0 13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </span>
             <h3>Broadcast Campaigns</h3>
-            <p>Send promotions to your full lead database with staggered delivery to avoid bans.</p>
+            <p>Push a promotion, new stock, or an offer to your entire lead database in one go — delivery paced automatically, no manual sending.</p>
           </article>
           <article class="feature">
             <span class="feature-icon" aria-hidden="true">
@@ -257,7 +327,7 @@
         <div class="section-head reveal">
           <p class="eyebrow">Custom Automation</p>
           <h2>Tell us what's slowing you down. We'll automate it.</h2>
-          <p class="section-sub">Beyond OrcaFlo, we build custom automations for any UAE business — scoped to your exact operation, built on your existing tools, and maintained by us ongoing.</p>
+          <p class="section-sub">Beyond OrcaFlo, we build custom automations scoped to your exact operation — on the tools you already use, maintained by us for as long as you run them.</p>
         </div>
 
         <div class="grid-who reveal-stagger">
@@ -295,13 +365,67 @@
       </div>
     </section>
 
+    <!-- Results -->
+    <section class="section" id="results">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">The Results</p>
+          <h2>Our partners are doing <span class="text-teal">50–60% more revenue</span> — from the same traffic</h2>
+          <p class="section-sub">No extra ad spend. No bigger team. The leads were already there — they were just going unanswered, un-chased, and unsold.</p>
+        </div>
+
+        <div class="results-band reveal">
+          <div class="result-stat">
+            <strong>50–60%</strong>
+            <span>revenue increase after rollout</span>
+          </div>
+          <div class="result-stat">
+            <strong>0</strong>
+            <span>extra headcount required</span>
+          </div>
+          <div class="result-stat">
+            <strong>&lt;5 sec</strong>
+            <span>reply time, day or night</span>
+          </div>
+        </div>
+
+        <p class="results-lead reveal">That lift doesn't come from magic. It comes from plugging three leaks that almost every UAE business is losing money to:</p>
+
+        <div class="grid-3 reveal-stagger">
+          <article class="card leak-card">
+            <span class="leak-num" aria-hidden="true">01</span>
+            <h3>The after-hours leak</h3>
+            <p>A third of enquiries land when nobody's working. Those customers don't wait — they message your competitor next. Now every one of them gets a real answer in seconds, at 2 AM on a Friday, in Arabic or English.</p>
+            <p class="leak-effect"><strong>Recovered:</strong> the enquiries that used to die overnight.</p>
+          </article>
+          <article class="card leak-card">
+            <span class="leak-num" aria-hidden="true">02</span>
+            <h3>The follow-up leak</h3>
+            <p>Most leads don't say no — they go quiet, and nobody chases them. OrcaFlo follows up at 24 hours, 3 days, and 7 days, writing each message from that lead's actual conversation. Not a template blast.</p>
+            <p class="leak-effect"><strong>Recovered:</strong> the "maybe later" leads everyone writes off.</p>
+          </article>
+          <article class="card leak-card">
+            <span class="leak-num" aria-hidden="true">03</span>
+            <h3>The forgotten-customer leak</h3>
+            <p>Your best buyers are people who already bought once. Most businesses never message them again. Broadcast campaigns put your new stock or offer in front of your entire database, in minutes.</p>
+            <p class="leak-effect"><strong>Recovered:</strong> repeat revenue from customers you already paid to acquire.</p>
+          </article>
+        </div>
+
+        <div class="results-cta reveal">
+          <p class="results-note">Figures reflect partner results after full rollout. Yours will depend on your margins, volume, and how many leads you're currently missing — we'll tell you honestly on the call.</p>
+          <a href="https://wa.me/971508549171?text=Hi%2C%20I%27d%20like%20to%20know%20what%20automation%20could%20add%20to%20my%20revenue." class="btn btn-primary btn-lg" target="_blank" rel="noopener">Find out what we'd recover for you →</a>
+        </div>
+      </div>
+    </section>
+
     <!-- Pricing -->
     <section class="section section-alt" id="pricing">
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow">Pricing</p>
           <h2>Straightforward pricing. No surprises.</h2>
-          <p class="section-sub">One-time build fee + small monthly maintenance on every service. No long contracts.</p>
+          <p class="section-sub">One-time build fee, small monthly maintenance. No lock-in, no long contracts, no per-message billing.</p>
         </div>
 
         <p class="pricing-guide reveal">Selling over WhatsApp? Start with <strong>OrcaFlo</strong>. Need something else automated? Start with an <strong>Automation Package</strong> or <strong>Custom Automation</strong>.</p>
@@ -314,7 +438,7 @@
             <p class="price price--range">Flexible pricing</p>
             <p class="price-addon">One-time payment or a monthly retainer — message us for a quote.</p>
             <ul class="price-features" role="list">
-              <li>Dedicated WhatsApp number (official Meta API)</li>
+              <li>Dedicated WhatsApp number</li>
               <li>AI trained on your services and brand voice</li>
               <li>Lead scoring, follow-ups, broadcasts, CRM dashboard</li>
               <li>Human takeover via Telegram</li>
@@ -360,48 +484,6 @@
       </div>
     </section>
 
-    <!-- Why Us -->
-    <section class="section section-alt" id="why-us">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Why Nuevo Automations</p>
-          <h2>We're not an agency reselling tools we've never used.</h2>
-          <p class="section-sub">Four reasons UAE businesses trust Nuevo Automations to automate their operations.</p>
-        </div>
-
-        <div class="grid-2 reveal-stagger">
-          <article class="card pain-card">
-            <span class="pain-icon" aria-hidden="true">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-            <h3>We run what we sell</h3>
-            <p>Our own UAE e-commerce business — KhaleejPeptides — runs entirely on the same automation systems we deploy for clients. Orders doubled within the first month of installation. We're not guessing. We know this works.</p>
-          </article>
-          <article class="card pain-card">
-            <span class="pain-icon" aria-hidden="true">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 8h7M5 12h4M14 16l-3 3v-3H8a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3h-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-            </span>
-            <h3>Arabic-first, not an afterthought</h3>
-            <p>Most AI tools translate Arabic. Ours speaks it — Khaleeji dialect, mixed Arabic-English, Arabizi. Your customers message the way they actually talk, and the AI understands.</p>
-          </article>
-          <article class="card pain-card">
-            <span class="pain-icon" aria-hidden="true">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 12.5 11.5 14.5 15 10.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-            <h3>Official API only — zero ban risk</h3>
-            <p>Cheap automation tools use unofficial WhatsApp methods and get numbers banned. We use Meta's official WhatsApp Business API for all eligible clients. Your number stays safe and compliant.</p>
-          </article>
-          <article class="card pain-card">
-            <span class="pain-icon" aria-hidden="true">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7"/><path d="M5.5 19c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            </span>
-            <h3>You deal directly with the builder</h3>
-            <p>No account managers, no support tickets bouncing around. Nawaf built every system we sell and personally manages every deployment — faster fixes, faster customisation, no corporate delay.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- Partners -->
     <section class="section" id="partners">
       <div class="container">
@@ -442,8 +524,8 @@
     <section class="trial-cta" id="contact">
       <div class="container trial-inner reveal">
         <p class="eyebrow">Talk to Nuevo Automations</p>
-        <h2>Ready to automate your business?</h2>
-        <p>Whether you need OrcaFlo for your WhatsApp sales or a custom automation built from scratch — book a free 20-minute discovery call and we'll show you exactly what's possible.</p>
+        <h2>Let's find the revenue you're leaving on the table</h2>
+        <p>Twenty minutes, free, no pitch deck. Tell us how your leads come in and where they get stuck — we'll show you exactly what we'd automate first and what it's worth.</p>
         <a href="https://wa.me/971508549171?text=Hi%2C%20I%27d%20like%20to%20book%20a%20discovery%20call%20with%20Nuevo%20Automations." class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7 1-.1.1-.3.1-.5 0-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4 0-.1-.5-1.3-.7-1.7-.2-.4-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.4.1.1 1.6 2.5 4 3.5.5.2 1 .4 1.3.5.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3Z"/></svg>
           Talk to Us on WhatsApp
@@ -465,17 +547,17 @@
       </div>
 
       <div class="footer-links">
-        <h4>Site</h4>
+        <h3>Site</h3>
         <a href="#problem">The Problem</a>
         <a href="#orcaflo">OrcaFlo</a>
         <a href="#automate">What We Automate</a>
+        <a href="#results">Results</a>
         <a href="#pricing">Pricing</a>
-        <a href="#why-us">Why Us</a>
         <a href="#partners">Partners</a>
       </div>
 
       <div class="footer-contact">
-        <h4>Contact</h4>
+        <h3>Contact</h3>
         <a href="https://wa.me/971508549171" target="_blank" rel="noopener">WhatsApp: +971 50 854 9171</a>
         <a href="mailto:nawafallahham@nuevoautomations.com">nawafallahham@nuevoautomations.com</a>
         <span>Dubai · Abu Dhabi · UAE</span>
@@ -494,6 +576,7 @@
   <!-- Noise overlay -->
   <div class="noise-overlay" aria-hidden="true"></div>
 
-  <script src="js/script.js"></script>
+  <script src="js/script.js" defer></script>
+  <script type="module" src="js/scene.js"></script>
 </body>
 </html>

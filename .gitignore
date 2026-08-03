@@ -1,0 +1,6 @@
+# Local editor / preview-server config
+.claude/
+
+# Abandoned design concept kept locally for reference — committing it would
+# publish it as a crawlable duplicate page.
+nebula-preview.html

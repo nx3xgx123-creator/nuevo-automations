@@ -3,6 +3,15 @@
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  var supportsWebGL = (function () {
+    try {
+      var c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl')));
+    } catch (e) {
+      return false;
+    }
+  }());
+
   /* ---- Footer year ---- */
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -78,10 +87,15 @@
     }
   }
 
-  /* ---- Particle canvas ---- */
+  /* ---- Particle canvas (fallback for browsers without WebGL / the 3D scene) ---- */
   (function () {
     var canvas = document.getElementById('particle-canvas');
-    if (!canvas || prefersReducedMotion) return;
+    if (!canvas) return;
+    var started = false;
+
+    function start() {
+      if (started || prefersReducedMotion) return;
+      started = true;
 
     var ctx = canvas.getContext('2d');
     var W, H, rafId;
@@ -135,6 +149,50 @@
     resize();
     for (var i = 0; i < NUM; i++) pts.push(new Pt());
     setTimeout(tick, 400);
+    }
+
+    window.NuevoParticleFallback = start;
+    if (!supportsWebGL) start();
+
+    // The 3D scene is an ES module pulled from a CDN. If that request fails
+    // (offline, blocked, CDN down) scene.js never executes, so nothing ever
+    // calls bail() and nothing sets `webgl-active` — leaving the page on a
+    // flat background with no fallback at all. Watch for that and start the
+    // 2D field ourselves. start() is idempotent, so a slow-but-successful
+    // boot that beats us here is harmless.
+    setTimeout(function () {
+      if (!document.body.classList.contains('webgl-active')) start();
+    }, 2500);
+  }());
+
+  /* ---- Smooth scroll (Lenis) + ScrollTrigger sync ---- */
+  (function () {
+    if (prefersReducedMotion || typeof window.Lenis !== 'function') return;
+
+    var lenis = new window.Lenis({ duration: 1.1, smoothWheel: true });
+    window.__lenis = lenis;
+    document.documentElement.style.scrollBehavior = 'auto';
+
+    if (window.gsap && window.ScrollTrigger) {
+      window.gsap.registerPlugin(window.ScrollTrigger);
+      lenis.on('scroll', window.ScrollTrigger.update);
+      window.gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      window.gsap.ticker.lagSmoothing(0);
+    } else {
+      requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href');
+        if (!id || id.length < 2) return;
+        var target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -84 });
+        header && header.classList.remove('is-open');
+      });
+    });
   }());
 
   /* ---- Scroll progress bar ---- */
@@ -191,44 +249,6 @@
       });
     }(h1));
     h1.classList.add('hero-words-ready');
-  }());
-
-  /* ---- Stat counter: count up when stats bar enters view ---- */
-  (function () {
-    var bar = document.querySelector('.hero-stats');
-    if (!bar || prefersReducedMotion || !('IntersectionObserver' in window)) return;
-    var nums = bar.querySelectorAll('strong');
-
-    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-
-    function run(el) {
-      var full = el.textContent;
-      var m = full.match(/\d[\d,]*/);
-      if (!m) return;
-      var target = parseInt(m[0].replace(/,/g, ''), 10);
-      if (isNaN(target)) return;
-      var prefix = full.slice(0, m.index);
-      var suffix = full.slice(m.index + m[0].length);
-      var dur = 1000, startTs = null;
-      function step(ts) {
-        if (startTs === null) startTs = ts;
-        var p = Math.min((ts - startTs) / dur, 1);
-        el.textContent = prefix + Math.round(easeOutCubic(p) * target) + suffix;
-        if (p < 1) requestAnimationFrame(step);
-        else el.textContent = full;
-      }
-      requestAnimationFrame(step);
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          nums.forEach(run);
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.5 });
-    io.observe(bar);
   }());
 
   /* ---- Button click ripple ---- */
@@ -343,7 +363,7 @@
   /* ---- 3D card tilt + cursor spotlight ---- */
   (function () {
     if (prefersReducedMotion) return;
-    var els = document.querySelectorAll('.card, .feature, .who-card, .step');
+    var els = document.querySelectorAll('.card, .feature, .who-card');
     els.forEach(function (el) {
       var spot = document.createElement('div');
       spot.className = 'card-spotlight';
@@ -355,7 +375,7 @@
         var y  = e.clientY - r.top;
         var rx = ((y - r.height / 2) / (r.height / 2)) * -6;
         var ry = ((x - r.width  / 2) / (r.width  / 2)) *  6;
-        el.style.transition = 'border-color 260ms var(--ease), background 260ms var(--ease), box-shadow 260ms var(--ease)';
+        el.style.transition = 'border-color 320ms var(--ease), background 320ms var(--ease), box-shadow 320ms var(--ease)';
         el.style.transform  = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
         spot.style.setProperty('--mx', x + 'px');
         spot.style.setProperty('--my', y + 'px');
@@ -363,7 +383,7 @@
       });
 
       el.addEventListener('mouseleave', function () {
-        el.style.transition = 'transform 500ms var(--ease), border-color 260ms var(--ease), background 260ms var(--ease), box-shadow 260ms var(--ease)';
+        el.style.transition = 'transform 500ms var(--ease), border-color 320ms var(--ease), background 320ms var(--ease), box-shadow 320ms var(--ease)';
         el.style.transform  = '';
         spot.style.opacity  = '0';
       });
