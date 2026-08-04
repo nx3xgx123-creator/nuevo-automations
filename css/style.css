@@ -753,6 +753,61 @@ button:focus-visible,
   margin-bottom: 16px;
 }
 
+/* Struck-through original price. Needs to match the specificity of
+   `.price span:first-child` (0,2,1) to override its sizing, hence the
+   element+class selector rather than a bare `.price-old`. */
+.price span.price-old {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Savings chip — green reads as "discount" and is already in the palette. */
+.price-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  margin: -4px 0 14px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7cf2b4;
+  background: rgba(37, 211, 102, 0.13);
+  border: 1px solid rgba(37, 211, 102, 0.38);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.price-save::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #25d366;
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .price-save::before { animation: online-pulse 2s ease-in-out infinite; }
+}
+
+/* Inline struck price inside the OrcaFlo section callout. */
+.orcaflo-pricing-main .price-old {
+  font-family: var(--font-body);
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--ink-faint);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+  margin-left: 2px;
+}
+
 
 .price-card--featured {
   border-color: rgba(95, 184, 204, 0.6);
