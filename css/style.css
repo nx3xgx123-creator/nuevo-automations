@@ -585,6 +585,13 @@ button:focus-visible,
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
 }
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+/* Two pricing cards would stretch uncomfortably wide at full container width. */
+.pricing-grid { max-width: 840px; margin-inline: auto; }
 
 .card {
   background: var(--surface);
@@ -714,31 +721,29 @@ button:focus-visible,
 }
 .price-features li {
   position: relative;
-  padding-left: 28px;
+  padding-left: 31px;
   font-size: 0.92rem;
+  line-height: 1.55;
   color: var(--ink-muted);
 }
+/* The tick was previously two rotated CSS borders positioned with a mix of px
+   and em, which left the check sitting off-centre in its circle and shifting
+   with font size. One centred SVG stays crisp and aligned at any size. */
 .price-features li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.45em;
-  width: 16px;
-  height: 16px;
+  top: 0.12em;
+  width: 19px;
+  height: 19px;
   border-radius: 50%;
-  background: rgba(31, 107, 122, 0.25);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
-}
-.price-features li::after {
-  content: "";
-  position: absolute;
-  left: 4.5px;
-  top: 0.62em;
-  width: 7px;
-  height: 4px;
-  border-left: 1.6px solid var(--teal-light);
-  border-bottom: 1.6px solid var(--teal-light);
-  transform: rotate(-45deg);
+  background-color: rgba(95, 184, 204, 0.15);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fd4e8' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 11px 11px;
+  border: 1px solid rgba(95, 184, 204, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .price-addon {
@@ -888,7 +893,7 @@ button:focus-visible,
   .hero-visual { order: -1; }
   .phone-frame { width: 260px; }
   .phone-screen { height: 420px; }
-  .grid-3 { grid-template-columns: 1fr; }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr; gap: 32px; }
 }
 
