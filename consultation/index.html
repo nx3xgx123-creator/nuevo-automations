@@ -564,8 +564,8 @@
                 <input type="tel" id="bk-phone" name="phone" autocomplete="tel" required maxlength="32" placeholder="+971 50 000 0000">
               </label>
               <label class="bk-input bk-input--wide">
-                <span>Business <em>optional</em></span>
-                <input type="text" id="bk-business" name="business" maxlength="80" placeholder="Clinic, store, agency…">
+                <span>Business name</span>
+                <input type="text" id="bk-business" name="business" autocomplete="organization" required maxlength="80" placeholder="e.g. Al Noor Dental Clinic">
               </label>
             </div>
           </div>
@@ -848,7 +848,7 @@
         var phone = document.getElementById('bk-phone');
         var business = document.getElementById('bk-business');
         var bad = false;
-        [name, phone].forEach(function (f) {
+        [name, phone, business].forEach(function (f) {
           var ok = f === phone
             ? f.value.replace(/\D/g, '').length >= 7
             : f.value.trim().length >= 2;
@@ -857,7 +857,7 @@
         });
         if (bad) {
           elSummary.classList.add('is-bad');
-          elSummary.textContent = 'Please add your name and a valid WhatsApp number.';
+          elSummary.textContent = 'Please add your name, business name and a valid WhatsApp number.';
           return;
         }
 
@@ -875,7 +875,7 @@
             ? prettySel() + '. We\'ll message you on WhatsApp shortly to confirm.'
             : 'Tap below to send us your slot on WhatsApp and we\'ll confirm it: ' + prettySel() + '.';
           document.getElementById('bk-done-wa').href = waLink(
-            ' Name: ' + name.value.trim() + '.' + (business.value.trim() ? ' Business: ' + business.value.trim() + '.' : '')
+            ' Name: ' + name.value.trim() + '. Business: ' + business.value.trim() + '.'
           );
           elDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
