@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Automation Consultation — Nuevo Automations</title>
+  <meta name="description" content="Book a free 20-minute call. We'll map where your business is losing leads and show you exactly what to automate first — you keep the plan either way.">
+
+  <!-- Campaign landing page: kept out of search so it doesn't compete with the
+       main site or get found out of context. Delete this line to index it. -->
+  <meta name="robots" content="noindex, follow">
+
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#050b1a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nuevo Automations">
+  <meta property="og:title" content="Free Automation Consultation — Nuevo Automations">
+  <meta property="og:description" content="20 minutes, free, no pitch deck. We'll map where your leads are getting lost and what to automate first.">
+  <meta property="og:image" content="https://nuevoautomations.com/assets/og-image.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://nuevoautomations.com/consultation/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- ===================================================================
+       META PIXEL — paste your Pixel ID below and uncomment to enable.
+       Without this, Meta cannot optimise the campaign for conversions and
+       you'll pay more per lead. The CTA buttons already fire a `Lead`
+       event once this is live (see the script at the end of the page).
+       ===================================================================
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID_HERE');
+    fbq('track', 'PageView');
+  </script>
+  -->
+
+  <style>
+    /* ---- Landing-page-specific layer on top of the shared design system ---- */
+    .lp-header {
+      position: relative;
+      z-index: 2;
+      padding: 22px 0;
+    }
+    .lp-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .lp-phone {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+    .lp-phone:hover { color: var(--teal-text); }
+    @media (max-width: 560px) { .lp-phone { display: none; } }
+
+    .lp-hero { padding: 40px 0 72px; position: relative; z-index: 2; }
+    .lp-hero h1 {
+      font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+      margin-bottom: 20px;
+      max-width: 20ch;
+    }
+    .lp-sub {
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      max-width: 54ch;
+      margin-bottom: 30px;
+    }
+    .lp-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+    .lp-reassure {
+      font-size: 0.86rem;
+      color: var(--ink-faint);
+      margin: 0 0 34px;
+    }
+    .lp-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+    }
+    .lp-trust li { display: inline-flex; align-items: center; gap: 8px; }
+    .lp-trust li::before {
+      content: "";
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background-color: rgba(95, 184, 204, 0.15);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fd4e8' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 10px 10px;
+      border: 1px solid rgba(95, 184, 204, 0.4);
+    }
+
+    .lp-section { padding: 66px 0; position: relative; z-index: 2; }
+    .lp-section h2 {
+      font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+      margin-bottom: 12px;
+    }
+    .lp-lead { font-size: 1rem; max-width: 60ch; margin-bottom: 36px; }
+
+    .lp-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .lp-step {
+      position: relative;
+      padding: 30px 26px;
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-edge);
+      backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+      box-shadow: var(--glass-inset), var(--glass-drop);
+    }
+    .lp-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--teal-text);
+      background: rgba(95, 184, 204, 0.14);
+      border: 1px solid rgba(95, 184, 204, 0.36);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      margin-bottom: 16px;
+    }
+    .lp-step h3 { color: var(--white); font-size: 1.06rem; margin-bottom: 8px; }
+    .lp-step p { font-size: 0.93rem; margin-bottom: 0; }
+
+    .lp-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .lp-fit {
+      padding: 24px 24px;
+      border-radius: var(--radius-md);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-edge);
+      backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+      box-shadow: var(--glass-inset);
+    }
+    .lp-fit h3 { color: var(--white); font-size: 1rem; margin-bottom: 6px; }
+    .lp-fit p { font-size: 0.9rem; margin-bottom: 0; color: var(--ink-faint); }
+
+    .lp-faq { max-width: 760px; }
+    .lp-faq details {
+      border-bottom: 1px solid var(--border-soft);
+      padding: 18px 0;
+    }
+    .lp-faq summary {
+      cursor: pointer;
+      list-style: none;
+      font-weight: 600;
+      color: var(--white);
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .lp-faq summary::-webkit-details-marker { display: none; }
+    .lp-faq summary::after {
+      content: "+";
+      color: var(--teal-text);
+      font-size: 1.3rem;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: transform 240ms var(--ease);
+    }
+    .lp-faq details[open] summary::after { transform: rotate(45deg); }
+    .lp-faq details p {
+      margin: 12px 0 0;
+      font-size: 0.94rem;
+      max-width: 62ch;
+    }
+
+    .lp-final {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 54px 40px;
+      border-radius: var(--radius-lg);
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-edge);
+      backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+      box-shadow: var(--glass-inset), var(--glass-drop);
+    }
+    .lp-final h2 { margin-bottom: 14px; }
+    .lp-final p { margin-bottom: 28px; }
+
+    .lp-footer {
+      position: relative;
+      z-index: 2;
+      padding: 40px 0 56px;
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--ink-faint);
+      border-top: 1px solid var(--border-soft);
+    }
+    .lp-footer a { color: var(--ink-muted); }
+    .lp-footer a:hover { color: var(--teal-text); }
+
+    /* Sticky mobile CTA — most Meta traffic is mobile, and the button should
+       never be more than a thumb away. */
+    .lp-sticky {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 120;
+      display: none;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(5, 11, 26, 0.4), rgba(5, 11, 26, 0.92));
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border-top: 1px solid var(--glass-edge);
+    }
+    @media (max-width: 760px) {
+      .lp-sticky { display: block; }
+      body { padding-bottom: 84px; }
+      .lp-steps, .lp-grid-2 { grid-template-columns: 1fr; }
+      .lp-section { padding: 52px 0; }
+      .lp-final { padding: 40px 22px; }
+    }
+    @media (max-width: 980px) {
+      .lp-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <header class="lp-header">
+    <div class="container lp-header-inner">
+      <a href="https://nuevoautomations.com/" class="logo">
+        <img class="logo-mark" src="../assets/logo-icon.png" alt="" width="38" height="38">
+        <span class="logo-text">Nuevo <strong>Automations</strong></span>
+      </a>
+      <a class="lp-phone" href="https://wa.me/971508549171">+971 50 854 9171</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="lp-hero">
+      <div class="container">
+        <p class="eyebrow">Free 20-Minute Consultation · <span class="text-teal">Dubai &amp; Abu Dhabi</span></p>
+        <h1>Find out what your <span class="text-teal">missed messages</span> are costing you</h1>
+        <p class="lp-sub">In 20 minutes we'll map how leads reach your business, show you exactly where they're getting lost, and tell you what's worth automating first. You keep the plan whether you work with us or not.</p>
+
+        <div class="lp-cta-row">
+          <a href="https://wa.me/971508549171?text=Hi%2C%20I%27d%20like%20to%20book%20my%20free%2020-minute%20consultation." class="btn btn-whatsapp btn-lg js-lead" data-lead="hero" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7 1-.1.1-.3.1-.5 0-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4 0-.1-.5-1.3-.7-1.7-.2-.4-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.4.1.1 1.6 2.5 4 3.5.5.2 1 .4 1.3.5.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3Z"/></svg>
+            Book my free consultation
+          </a>
+        </div>
+        <p class="lp-reassure">Replies in minutes · No obligation · Arabic &amp; English</p>
+
+        <ul class="lp-trust">
+          <li>No sales deck — just your numbers</li>
+          <li>Run by the team that built the systems</li>
+          <li>Works with the tools you already use</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- What happens on the call -->
+    <section class="lp-section">
+      <div class="container">
+        <h2>What actually happens on the call</h2>
+        <p class="lp-lead">No presentation, no pressure. Three things, and it's over in twenty minutes.</p>
+        <ol class="lp-steps">
+          <li class="lp-step">
+            <span class="lp-step-num">1</span>
+            <h3>You tell us how leads reach you</h3>
+            <p>WhatsApp, Instagram, walk-ins, ads, referrals — whatever it is. Five minutes, plain language, no prep needed.</p>
+          </li>
+          <li class="lp-step">
+            <span class="lp-step-num">2</span>
+            <h3>We show you where they leak</h3>
+            <p>After-hours enquiries, follow-ups nobody sends, repeat customers never contacted again. Usually it's obvious once it's on paper.</p>
+          </li>
+          <li class="lp-step">
+            <span class="lp-step-num">3</span>
+            <h3>You get a written plan</h3>
+            <p>What to automate first, roughly what it costs, and what it should recover. Yours to keep — hire us or hand it to someone else.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Who it's for -->
+    <section class="lp-section">
+      <div class="container">
+        <h2>Worth a call if any of this sounds familiar</h2>
+        <p class="lp-lead">We work with UAE businesses that sell over WhatsApp — clinics, e-commerce, real estate, salons, services.</p>
+        <div class="lp-grid-2">
+          <div class="lp-fit">
+            <h3>Messages arrive after hours</h3>
+            <p>People enquire at 9 PM and book with whoever answers first — usually not you.</p>
+          </div>
+          <div class="lp-fit">
+            <h3>Follow-ups depend on someone remembering</h3>
+            <p>Leads go quiet, nobody chases them, and they quietly become someone else's customer.</p>
+          </div>
+          <div class="lp-fit">
+            <h3>Your team retypes the same replies</h3>
+            <p>Hours a day answering the same handful of questions instead of closing.</p>
+          </div>
+          <div class="lp-fit">
+            <h3>Past customers never hear from you</h3>
+            <p>The people most likely to buy again are sitting in a phone nobody messages.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="lp-section">
+      <div class="container lp-faq">
+        <h2>Before you book</h2>
+        <details>
+          <summary>Is the call really free?</summary>
+          <p>Yes. Twenty minutes, no cost, no obligation, and you keep the plan we put together even if you never work with us.</p>
+        </details>
+        <details>
+          <summary>What does it cost if I go ahead?</summary>
+          <p>OrcaFlo, our WhatsApp AI system, is a one-time $49 setup (currently half price) and then 4¢ per message sent — no monthly fee. Custom automation projects are quoted by scope, typically $400–10,000.</p>
+        </details>
+        <details>
+          <summary>Do I need to change my WhatsApp number?</summary>
+          <p>No. We set you up with a dedicated number, or work with the one you already use. We'll cover which fits on the call.</p>
+        </details>
+        <details>
+          <summary>How long does setup take?</summary>
+          <p>Most WhatsApp systems are live within a few days of us getting your details and content. Larger custom builds depend on scope, and we'll give you a realistic timeline in the plan.</p>
+        </details>
+        <details>
+          <summary>Does it handle Arabic?</summary>
+          <p>Yes — Khaleeji dialect, mixed Arabic-English, and Arabizi. Your customers message the way they actually talk.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="lp-section">
+      <div class="container">
+        <div class="lp-final">
+          <h2>Twenty minutes could pay for itself</h2>
+          <p>Tell us how your leads come in. We'll tell you what you're losing and what to fix first.</p>
+          <a href="https://wa.me/971508549171?text=Hi%2C%20I%27d%20like%20to%20book%20my%20free%2020-minute%20consultation." class="btn btn-whatsapp btn-lg js-lead" data-lead="footer" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7 1-.1.1-.3.1-.5 0-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4 0-.1-.5-1.3-.7-1.7-.2-.4-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2.9 2.4.1.1 1.6 2.5 4 3.5.5.2 1 .4 1.3.5.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3Z"/></svg>
+            Book my free consultation
+          </a>
+          <p class="lp-reassure" style="margin:20px 0 0">Or message us directly on +971 50 854 9171</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lp-footer">
+    <div class="container">
+      <p style="margin:0 0 6px">Nuevo Automations · Dubai &amp; Abu Dhabi, UAE</p>
+      <p style="margin:0"><a href="https://nuevoautomations.com/">nuevoautomations.com</a> · <a href="mailto:nawafallahham@nuevoautomations.com">nawafallahham@nuevoautomations.com</a></p>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="lp-sticky">
+    <a href="https://wa.me/971508549171?text=Hi%2C%20I%27d%20like%20to%20book%20my%20free%2020-minute%20consultation." class="btn btn-whatsapp btn-block js-lead" data-lead="sticky" target="_blank" rel="noopener">Book my free consultation</a>
+  </div>
+
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <script>
+  (function () {
+    'use strict';
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---- Conversion tracking ----
+       Fires a Meta `Lead` event on any CTA click, but only once the pixel is
+       actually installed — no pixel, no error. */
+    document.querySelectorAll('.js-lead').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Lead', { content_name: el.getAttribute('data-lead') || 'cta' });
+        }
+      });
+    });
+
+    /* ---- Ambient particle field ----
+       Deliberately the light 2D version rather than the main site's WebGL
+       scene: this page is paid traffic, mostly mobile, where every extra
+       second of load costs real money per lead. */
+    (function () {
+      var canvas = document.getElementById('particle-canvas');
+      if (!canvas || reduced) return;
+      var ctx = canvas.getContext('2d');
+      var W, H, pts = [], NUM = window.innerWidth < 760 ? 34 : 62, LINK = 130;
+
+      function Pt() {
+        this.x = Math.random() * W; this.y = Math.random() * H;
+        this.vx = (Math.random() - 0.5) * 0.28; this.vy = (Math.random() - 0.5) * 0.28;
+        this.r = Math.random() * 1.4 + 0.4; this.a = Math.random() * 0.35 + 0.08;
+      }
+      function resize() {
+        W = canvas.width = document.documentElement.clientWidth;
+        H = canvas.height = document.documentElement.clientHeight;
+      }
+      function tick() {
+        requestAnimationFrame(tick);
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(95,184,204,' + p.a + ')'; ctx.fill();
+          for (var j = i + 1; j < pts.length; j++) {
+            var q = pts[j], dx = p.x - q.x, dy = p.y - q.y;
+            var d = Math.sqrt(dx * dx + dy * dy);
+            if (d < LINK) {
+              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = 'rgba(95,184,204,' + ((1 - d / LINK) * 0.1) + ')';
+              ctx.lineWidth = 0.5; ctx.stroke();
+            }
+          }
+        }
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      for (var i = 0; i < NUM; i++) pts.push(new Pt());
+      tick();
+    }());
+  }());
+  </script>
+</body>
+</html>
