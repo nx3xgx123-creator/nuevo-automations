@@ -36,6 +36,21 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="css/style.css">
 
+  <!-- Meta Pixel — PageView here, plus a `Lead` event on WhatsApp CTA clicks
+       (wired in js/script.js). Also lets the campaign retarget visitors who
+       landed here but never messaged. -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '997785509848718');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" alt=""
+    src="https://www.facebook.com/tr?id=997785509848718&ev=PageView&noscript=1"></noscript>
+
   <!-- Structured data. Only facts published on this page — deliberately no
        aggregateRating/review, since inventing those is both dishonest and a
        manual-action risk with Google. -->

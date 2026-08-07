@@ -12,6 +12,21 @@
     }
   }());
 
+  /* ---- Meta Pixel: count WhatsApp CTA clicks as leads ----
+     Placed before the chat block below, which returns early when #wa-chat is
+     absent. Guarded on fbq so it no-ops if the pixel is blocked or removed. */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a[href*="wa.me/"]');
+    if (!link || typeof window.fbq !== 'function') return;
+    var where = link.classList.contains('wa-sticky') ? 'sticky'
+              : link.closest('#pricing') ? 'pricing'
+              : link.closest('#contact') ? 'contact'
+              : link.closest('.site-header') ? 'header'
+              : link.closest('.hero') ? 'hero'
+              : 'other';
+    window.fbq('track', 'Lead', { content_name: where });
+  });
+
   /* ---- Footer year ---- */
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
