@@ -707,7 +707,6 @@
       if (!elDays || !elForm) return;
 
       var taken = {};          // { 'YYYY-MM-DD': ['14:00', ...] }
-      var apiLive = false;
       var days = [];
       var sel = { date: null, time: null };
 
@@ -880,8 +879,10 @@
           elDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        if (!apiLive) { finish(false); return; }
-
+        // Always attempt the real booking. Availability lookup and booking are
+        // separate endpoints, so a failure to pre-load taken slots must not
+        // stop someone actually booking - the server's atomic write is what
+        // guarantees correctness, and a 409 covers any collision.
         fetch(API + '/api/book', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -911,11 +912,8 @@
       function loadAvailability() {
         return fetch(API + '/api/slots?days=14', { cache: 'no-store' })
           .then(function (r) { return r.json(); })
-          .then(function (j) {
-            apiLive = Boolean(j && j.ok);
-            taken = (j && j.taken) || {};
-          })
-          .catch(function () { apiLive = false; taken = {}; });
+          .then(function (j) { taken = (j && j.taken) || {}; })
+          .catch(function () { taken = {}; });
       }
 
       // Render immediately from local rules, then refine once the API answers,
