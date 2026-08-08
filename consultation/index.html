@@ -692,7 +692,10 @@
        comes from the booking API; if that's unreachable the widget still
        works and hands off to WhatsApp, so the page never dead-ends. */
     (function () {
-      var API = 'https://nuevo-booking-api-nx3xgx123-creators-projects.vercel.app';
+      // Clean production alias. The team-scoped alias
+      // (nuevo-booking-api-<team>.vercel.app) fails CORS preflight, so it must
+      // not be used from the browser.
+      var API = 'https://nuevo-booking-api.vercel.app';
       var WA = '971508549171';
       var OPEN = 14 * 60, CLOSE = 18 * 60 + 30, STEP = 30;
       var LEAD_MIN = 45;   // don't offer a slot less than 45 min away
