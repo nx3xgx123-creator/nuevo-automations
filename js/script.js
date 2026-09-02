@@ -3,15 +3,6 @@
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var supportsWebGL = (function () {
-    try {
-      var c = document.createElement('canvas');
-      return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl')));
-    } catch (e) {
-      return false;
-    }
-  }());
-
   /* ---- Meta Pixel: count WhatsApp CTA clicks as leads ----
      Placed before the chat block below, which returns early when #wa-chat is
      absent. Guarded on fbq so it no-ops if the pixel is blocked or removed. */
@@ -65,11 +56,10 @@
   /* ---- Scroll reveal (blocks + staggered grids) ---- */
   var revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
 
-  // Stagger direct children of grid containers by 80ms each (motion only).
   if (!prefersReducedMotion) {
     document.querySelectorAll('.reveal-stagger').forEach(function (group) {
       Array.prototype.forEach.call(group.children, function (child, i) {
-        child.style.transitionDelay = (i * 80) + 'ms';
+        child.style.transitionDelay = (i * 60) + 'ms';
       });
     });
   }
@@ -84,16 +74,6 @@
             var el = entry.target;
             el.classList.add('is-visible');
             observer.unobserve(el);
-            // Clear the stagger delay once revealed so it never lags later
-            // transitions (e.g. hover lift on pricing cards).
-            if (el.classList.contains('reveal-stagger')) {
-              var kids = el.children;
-              setTimeout(function () {
-                Array.prototype.forEach.call(kids, function (c) {
-                  c.style.transitionDelay = '';
-                });
-              }, (kids.length * 80) + 700);
-            }
           }
         });
       }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
@@ -101,114 +81,6 @@
       revealEls.forEach(function (el) { observer.observe(el); });
     }
   }
-
-  /* ---- Particle canvas (fallback for browsers without WebGL / the 3D scene) ---- */
-  (function () {
-    var canvas = document.getElementById('particle-canvas');
-    if (!canvas) return;
-    var started = false;
-
-    function start() {
-      if (started || prefersReducedMotion) return;
-      started = true;
-
-    var ctx = canvas.getContext('2d');
-    var W, H, rafId;
-    var pts = [];
-    var NUM = 65;
-    var LINK = 130;
-
-    function Pt() {
-      this.x = Math.random() * W;
-      this.y = Math.random() * H;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.r  = Math.random() * 1.4 + 0.4;
-      this.a  = Math.random() * 0.35 + 0.08;
-    }
-
-    function resize() {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-
-    function tick() {
-      rafId = requestAnimationFrame(tick);
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < pts.length; i++) {
-        var p = pts[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > W) p.vx *= -1;
-        if (p.y < 0 || p.y > H) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(95,184,204,' + p.a + ')';
-        ctx.fill();
-        for (var j = i + 1; j < pts.length; j++) {
-          var q = pts[j];
-          var dx = p.x - q.x, dy = p.y - q.y;
-          var d  = Math.sqrt(dx * dx + dy * dy);
-          if (d < LINK) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(95,184,204,' + ((1 - d / LINK) * 0.1) + ')';
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-    for (var i = 0; i < NUM; i++) pts.push(new Pt());
-    setTimeout(tick, 400);
-    }
-
-    window.NuevoParticleFallback = start;
-    if (!supportsWebGL) start();
-
-    // The 3D scene is an ES module pulled from a CDN. If that request fails
-    // (offline, blocked, CDN down) scene.js never executes, so nothing ever
-    // calls bail() and nothing sets `webgl-active` — leaving the page on a
-    // flat background with no fallback at all. Watch for that and start the
-    // 2D field ourselves. start() is idempotent, so a slow-but-successful
-    // boot that beats us here is harmless.
-    setTimeout(function () {
-      if (!document.body.classList.contains('webgl-active')) start();
-    }, 2500);
-  }());
-
-  /* ---- Smooth scroll (Lenis) + ScrollTrigger sync ---- */
-  (function () {
-    if (prefersReducedMotion || typeof window.Lenis !== 'function') return;
-
-    var lenis = new window.Lenis({ duration: 1.1, smoothWheel: true });
-    window.__lenis = lenis;
-    document.documentElement.style.scrollBehavior = 'auto';
-
-    if (window.gsap && window.ScrollTrigger) {
-      window.gsap.registerPlugin(window.ScrollTrigger);
-      lenis.on('scroll', window.ScrollTrigger.update);
-      window.gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-      window.gsap.ticker.lagSmoothing(0);
-    } else {
-      requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var id = a.getAttribute('href');
-        if (!id || id.length < 2) return;
-        var target = document.querySelector(id);
-        if (!target) return;
-        e.preventDefault();
-        lenis.scrollTo(target, { offset: -84 });
-        header && header.classList.remove('is-open');
-      });
-    });
-  }());
 
   /* ---- Scroll progress bar ---- */
   (function () {
@@ -229,59 +101,6 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', update);
     update();
-  }());
-
-  /* ---- Hero headline: word-by-word reveal on load ---- */
-  (function () {
-    if (prefersReducedMotion) return;
-    var h1 = document.querySelector('.hero h1');
-    if (!h1) return;
-    var idx = 0;
-    (function wrap(node) {
-      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
-        if (child.nodeType === 3) {
-          // text node — split into words, preserve whitespace (incl. &nbsp;)
-          var parts = child.textContent.split(/(\s+)/);
-          var frag = document.createDocumentFragment();
-          parts.forEach(function (part) {
-            if (part === '') return;
-            if (/^\s+$/.test(part)) {
-              frag.appendChild(document.createTextNode(part));
-              return;
-            }
-            var w = document.createElement('span');
-            w.className = 'hero-word';
-            w.textContent = part;
-            w.style.animationDelay = (idx * 90) + 'ms';
-            idx++;
-            frag.appendChild(w);
-          });
-          node.replaceChild(frag, child);
-        } else if (child.nodeType === 1 && child.tagName !== 'BR') {
-          // element (e.g. .text-teal span) — recurse, keep <br> intact
-          wrap(child);
-        }
-      });
-    }(h1));
-    h1.classList.add('hero-words-ready');
-  }());
-
-  /* ---- Button click ripple ---- */
-  (function () {
-    if (prefersReducedMotion) return;
-    document.addEventListener('click', function (e) {
-      var btn = e.target.closest && e.target.closest('.btn-primary, .btn-whatsapp');
-      if (!btn) return;
-      var rect = btn.getBoundingClientRect();
-      var size = Math.max(rect.width, rect.height);
-      var ripple = document.createElement('span');
-      ripple.className = 'btn-ripple';
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-      btn.appendChild(ripple);
-      setTimeout(function () { ripple.remove(); }, 620);
-    });
   }());
 
   /* ---- Animated WhatsApp conversation ---- */
@@ -374,73 +193,5 @@
   } else {
     runConversation();
   }
-
-  /* ---- 3D card tilt + cursor spotlight ---- */
-  (function () {
-    if (prefersReducedMotion) return;
-    var els = document.querySelectorAll('.card, .feature, .who-card');
-    els.forEach(function (el) {
-      var spot = document.createElement('div');
-      spot.className = 'card-spotlight';
-      el.insertBefore(spot, el.firstChild);
-
-      el.addEventListener('mousemove', function (e) {
-        var r  = el.getBoundingClientRect();
-        var x  = e.clientX - r.left;
-        var y  = e.clientY - r.top;
-        var rx = ((y - r.height / 2) / (r.height / 2)) * -6;
-        var ry = ((x - r.width  / 2) / (r.width  / 2)) *  6;
-        el.style.transition = 'border-color 320ms var(--ease), background 320ms var(--ease), box-shadow 320ms var(--ease)';
-        el.style.transform  = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
-        spot.style.setProperty('--mx', x + 'px');
-        spot.style.setProperty('--my', y + 'px');
-        spot.style.opacity = '1';
-      });
-
-      el.addEventListener('mouseleave', function () {
-        el.style.transition = 'transform 500ms var(--ease), border-color 320ms var(--ease), background 320ms var(--ease), box-shadow 320ms var(--ease)';
-        el.style.transform  = '';
-        spot.style.opacity  = '0';
-      });
-    });
-  }());
-
-  /* ---- Magnetic buttons ---- */
-  (function () {
-    if (prefersReducedMotion) return;
-    document.querySelectorAll('.btn-primary, .btn-whatsapp').forEach(function (btn) {
-      btn.addEventListener('mousemove', function (e) {
-        var r = btn.getBoundingClientRect();
-        var x = (e.clientX - r.left - r.width  / 2) * 0.22;
-        var y = (e.clientY - r.top  - r.height / 2) * 0.22;
-        btn.style.transform = 'translateY(-2px) translate(' + x + 'px,' + y + 'px)';
-      });
-      btn.addEventListener('mouseleave', function () {
-        btn.style.transform = '';
-      });
-    });
-  }());
-
-  /* ---- Hero scroll parallax ---- */
-  (function () {
-    if (prefersReducedMotion) return;
-    var copy   = document.querySelector('.hero-copy');
-    var visual = document.querySelector('.hero-visual');
-    var hero   = document.querySelector('.hero');
-    if (!copy || !visual || !hero) return;
-    var ticking = false;
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        var y = window.pageYOffset;
-        if (y <= hero.offsetHeight + 120) {
-          copy.style.transform   = 'translateY(' + (y * 0.12) + 'px)';
-          visual.style.transform = 'translateY(' + (y * 0.07) + 'px)';
-        }
-        ticking = false;
-      });
-    }, { passive: true });
-  }());
 
 })();

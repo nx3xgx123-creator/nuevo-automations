@@ -6,52 +6,46 @@
   <title>Privacy Policy — Nuevo Automations</title>
   <meta name="description" content="How Nuevo Automations collects, uses and protects your personal data, including cookies and advertising tools.">
   <link rel="canonical" href="https://nuevoautomations.com/privacy/">
-  <link rel="icon" href="../assets/favicon.ico" sizes="any">
-  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-  <meta name="theme-color" content="#050b1a">
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <meta name="theme-color" content="#ffffff">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
 
   <style>
-    .legal { max-width: 800px; margin: 0 auto; padding: 60px 0 80px; position: relative; z-index: 2; }
-    .legal h1 { font-size: clamp(2rem, 4.5vw, 2.8rem); margin-bottom: 10px; }
+    .legal { max-width: 800px; margin: 0 auto; padding: 56px 0 80px; }
+    .legal h1 { font-size: clamp(2rem, 4.5vw, 2.6rem); margin-bottom: 10px; }
     .legal .updated { color: var(--ink-faint); font-size: 0.88rem; margin-bottom: 40px; }
     .legal h2 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       margin: 40px 0 12px;
-      color: var(--white);
       padding-top: 26px;
-      border-top: 1px solid var(--border-soft);
+      border-top: 1px solid var(--line);
     }
     .legal h2:first-of-type { border-top: 0; padding-top: 0; }
     .legal p, .legal li { font-size: 0.97rem; line-height: 1.7; }
     .legal ul { padding-left: 22px; margin-bottom: 18px; }
     .legal li { margin-bottom: 8px; }
-    .legal a { color: var(--teal-text); text-decoration: underline; text-underline-offset: 3px; }
-    .legal strong { color: var(--white); }
+    .legal a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+    .legal strong { color: var(--ink); }
     .legal-back {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.9rem; color: var(--ink-muted); margin-bottom: 34px;
     }
-    .legal-back:hover { color: var(--teal-text); }
+    .legal-back:hover { color: var(--brand); }
     .legal-contact {
-      margin-top: 40px; padding: 26px 24px;
+      margin-top: 40px; padding: 24px 24px;
       border-radius: var(--radius-lg);
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-edge);
-      backdrop-filter: blur(var(--glass-blur)) saturate(170%);
-      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
-      box-shadow: var(--glass-inset);
+      background: var(--paper-alt);
+      border: 1px solid var(--line);
     }
     .legal-contact p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
-
   <main class="container legal">
     <a href="/" class="legal-back">← Back to Nuevo Automations</a>
 
@@ -82,7 +76,7 @@
     <p>This website uses the <strong>Meta Pixel</strong>, a tool provided by Meta Platforms, Inc. (Facebook and Instagram). It sets cookies and reports back to Meta when you visit a page or click one of our contact buttons.</p>
     <p>We use it to measure how our advertising performs and to reach people who have visited the site. Meta may combine this with information it already holds about you. You can read how Meta handles this in the <a href="https://www.facebook.com/privacy/policy/" target="_blank" rel="noopener">Meta Privacy Policy</a>, and adjust what you see through <a href="https://www.facebook.com/adpreferences/ad_settings" target="_blank" rel="noopener">Meta's ad preferences</a>.</p>
     <p>You can decline these cookies using the banner shown when you first visit, change your mind at any time using the link at the bottom of this page, or block cookies in your browser settings. Declining does not affect your ability to browse the site or book a consultation.</p>
-    <p>We also load fonts from Google Fonts and code libraries from jsDelivr. These providers receive your IP address as a normal part of serving those files.</p>
+    <p>We also load fonts from Google Fonts. That provider receives your IP address as a normal part of serving those files.</p>
 
     <h2>Who we share it with</h2>
     <p>We do not sell your personal data. We share it only with the service providers that make this website work:</p>
@@ -110,8 +104,6 @@
       <p><a href="#" id="cookie-reset">Change your cookie choice</a></p>
     </div>
   </main>
-
-  <div class="noise-overlay" aria-hidden="true"></div>
 
   <script>
     document.getElementById('cookie-reset').addEventListener('click', function (e) {
